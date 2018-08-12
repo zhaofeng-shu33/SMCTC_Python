@@ -27,7 +27,7 @@
 #ifndef __SMC_MOVESET_PYTHON_HH
 #define __SMC_MOVESET_PYTHON_HH 1.0
 
-#include "particle.hh"
+#include "particle_python.hh"
 #include "rng.hh"
 #include <boost/python.hpp>
 #include <string>

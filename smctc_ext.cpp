@@ -48,7 +48,13 @@ BOOST_PYTHON_MODULE(smctc)
     .def("GetValue", &Particle::GetValue, return_value_policy<copy_const_reference>())
     .def("AddToLogWeight", &Particle::AddToLogWeight);
 
-    class_<Sampler, boost::noncopyable>("sampler", init<long, HistoryType>());
+    class_<Sampler, boost::noncopyable>("sampler", init<long, HistoryType>())
+    .def("SetMoveSet", &Sampler::SetMoveSet)
+    .def("Initialise", &Sampler::Initialise)
+    .def("SetResampleParams", &Sampler::SetResampleParams)
+    .def("Iterate", &Sampler::Iterate)
+    .def("Integrate_Mean", &Sampler::Integrate_Mean);
+
     class_<smc::rng>("rng",init<>())
     .def("Normal", &smc::rng::Normal);
 

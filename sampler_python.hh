@@ -36,9 +36,9 @@ inline double max(double a1, double a2){
 #include "rng.hh"
 #include "history.hh"
 #include "moveset_python.hh"
-#include "particle.hh"
+#include "particle_python.hh"
 #include "smc-exception.hh"
-
+#include <boost/python.hpp>
 ///Specifiers for various resampling algorithms:
 enum ResampleType { SMC_RESAMPLE_MULTINOMIAL = 0, 
 		    SMC_RESAMPLE_RESIDUAL, 
@@ -115,6 +115,9 @@ namespace smc {
       void Initialise(void);
       ///Integrate the supplied function with respect to the current particle set.
       double Integrate(double(*pIntegrand)(const Space &,void*), void* pAuxiliary);
+      // Get the mean value at dimension (id)
+      double Integrate_Mean(int dimension_id);
+
       ///Integrate the supplied function over the path path using the supplied width function.
       double IntegratePathSampling(double (*pIntegrand)(long,const particle<Space>&,void*), double (*pWidth)(long,void*), void* pAuxiliary);
       ///Perform one iteration of the simulation algorithm.
@@ -243,7 +246,7 @@ namespace smc {
     T = 0;
 
     for(int i = 0; i < N; i++) 
-      pParticles[i] = Moves.DoInit(pRng);
+      pParticles[i] = *Moves.DoInit(*pRng);
 
     if(htHistoryMode != SMC_HISTORY_NONE) {
       while(History.Pop());
@@ -276,6 +279,22 @@ namespace smc {
     return (double)rValue;
   }
 
+  template <class Space>
+  double sampler_python<Space>::Integrate_Mean(int dimension_id)
+  {
+    long double rValue = 0;
+    long double wSum = 0;
+    for(int i =0; i < N; i++)
+      {
+        Space sp = pParticles[i].GetValue();
+        double mean_value = boost::python::extract<double>(sp[dimension_id]);
+	      rValue += expl(pParticles[i].GetLogWeight()) * mean_value;
+	      wSum  += expl(pParticles[i].GetLogWeight());
+      }
+
+      rValue /= wSum;
+      return (double)rValue;
+  }
   /// This function is intended to be used to estimate integrals of the sort which must be evaluated to determine the
   /// normalising constant of a distribution obtain using a sequence of potential functions proportional to densities with respect
   /// to the initial distribution to define a sequence of distributions leading up to the terminal, interesting distribution.
@@ -371,7 +390,7 @@ namespace smc {
   void sampler_python<Space>::MoveParticles(void)
   {
     for(int i = 0; i < N; i++) {
-      Moves.DoMove(T+1,pParticles[i], pRng);
+      Moves.DoMove(T+1,pParticles[i], *pRng);
       //  pParticles[i].Set(pNew.value, pNew.logweight);
     }
   }
@@ -486,7 +505,7 @@ namespace smc {
     }
 
     //Perform the replication of the chosen.
-    for(int i = 0; i < N ; ++i) {
+    for(unsigned int i = 0; i < N ; ++i) {
       if(uRSIndices[i] != i)
 	pParticles[i].SetValue(pParticles[uRSIndices[i]].GetValue());
       pParticles[i].SetLogWeight(0);
