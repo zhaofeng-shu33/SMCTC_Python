@@ -27,7 +27,7 @@ class TestMoveSet(unittest.TestCase):
         mrng = smctc.rng()
         fmove = smctc.moveset(fInitialise, fMove)
         fmove.DoMove(0, a, mrng)
-        self.assertAlmostEquals(a.GetLogWeight(),2.4)
+        self.assertAlmostEqual(a.GetLogWeight(),2.4)
         
 class TestRandomNumberGenerator(unittest.TestCase):
     def test_Normal(self):
@@ -36,6 +36,27 @@ class TestRandomNumberGenerator(unittest.TestCase):
 class TestSampler(unittest.TestCase):
     def test_Init(self):
         smctc.sampler(100,smctc.HistoryType.SMC_HISTORY_NONE)
+    def test_Initialise(self):
+        a=smctc.sampler(100,smctc.HistoryType.SMC_HISTORY_NONE)
+        a.SetResampleParams(smctc.ResampleType.SMC_RESAMPLE_RESIDUAL,0.5)
+        fmove = smctc.moveset(fInitialise, fMove)
+        a.SetMoveSet(fmove)
+        a.Initialise()        
+    def test_Iterate(self):    
+        a=smctc.sampler(10,smctc.HistoryType.SMC_HISTORY_NONE)
+        a.SetResampleParams(smctc.ResampleType.SMC_RESAMPLE_RESIDUAL,0.5)
+        fmove = smctc.moveset(fInitialise, fMove)
+        a.SetMoveSet(fmove)
+        a.Initialise()        
+        a.Iterate()
+    def test_Integate_Mean(self):
+        a=smctc.sampler(10,smctc.HistoryType.SMC_HISTORY_NONE)
+        a.SetResampleParams(smctc.ResampleType.SMC_RESAMPLE_RESIDUAL,0.5)
+        fmove = smctc.moveset(fInitialise, fMove)
+        a.SetMoveSet(fmove)
+        a.Initialise()        
+        a.Integrate_Mean(0)
+
 class TestEnumType(unittest.TestCase):
     def test_ResampleType(self):
         smctc.ResampleType.SMC_RESAMPLE_MULTINOMIAL
@@ -65,11 +86,11 @@ class TestParticleClass(unittest.TestCase):
         a = smctc.particle([1,2.0],2.3)
         self.assertEqual(a.GetValue(), [1,2.0])
     def test_set_log_weight(self):
-        a = smctc.particle()
+        a = smctc.particle([1,2.0],2.3)
         a.SetLogWeight(2.3)
         self.assertEqual(a.GetLogWeight(),2.3)
     def test_set_value(self):
-        a = smctc.particle()
+        a = smctc.particle([1,2.0],2.3)
         a.SetValue([1,2.0])
         self.assertEqual(a.GetValue(),[1,2.0])
 if __name__ == '__main__':

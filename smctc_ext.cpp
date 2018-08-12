@@ -38,9 +38,8 @@ BOOST_PYTHON_MODULE(smctc)
     enum_<HistoryType>("HistoryType")
     .value("SMC_HISTORY_NONE", SMC_HISTORY_NONE)
     .value("SMC_HISTORY_RAM", SMC_HISTORY_RAM);        
-
+    
     class_<Particle>("particle", init<list,double>())
-    .def(init<>())
     .def(init<Particle>())
     .def("SetLogWeight", &Particle::SetLogWeight)
     .def("GetLogWeight", &Particle::GetLogWeight)
