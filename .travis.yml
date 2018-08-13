@@ -1,7 +1,7 @@
 os: osx
 before_install:
   - brew install gsl
-  - brew install boost-python3
+  - brew install boost-python
   - cd include 
   - make
   - cd ..
