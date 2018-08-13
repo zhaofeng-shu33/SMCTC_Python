@@ -1,10 +1,10 @@
+os: osx
 language: python
 python:
   - "3.6"
 before_install:
-  - sudo apt-get install libgsl0ldbl
-  - sudo apt-get install libboost-dev
-  - sudo apt-get install libboost-python-dev
+  - brew install gsl
+  - brew install boost-python3
   - cd include 
   - make
   - cd ..
