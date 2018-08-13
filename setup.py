@@ -2,7 +2,7 @@ import os
 import sys
 from setuptools import Extension, setup
 
-if False:
+if False: # if necessay, change False to True
     osx_specific = '-stdlib=libc++'
 else:
     osx_specific = ''
