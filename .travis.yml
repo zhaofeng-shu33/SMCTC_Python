@@ -1,7 +1,9 @@
-os: 
-  - osx
-  - linux
-
+matrix:
+  include: 
+  - os: linux
+    sudo: required
+  - os: osx
+    
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gsl boost-python; fi 
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install libboost-all-dev libgsl0-dev libgsl0ldbl; fi 
