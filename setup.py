@@ -28,6 +28,7 @@ if sys.platform == 'win32':
     conda_include = os.path.join(os.environ['CONDA_PREFIX'],'Library','include')
     conda_lib_path = os.path.join(os.environ['CONDA_PREFIX'],'Library','lib') 
     include_dir_list.append(conda_include)
+    compile_flag_list.append('/EHsc')
     link_flag_list.append('/LIBPATH:'+conda_lib_path)
     link_flag_list.append('libboost_exception.lib')
     link_flag_list.append('gsl.lib')
