@@ -29,6 +29,7 @@ if sys.platform == 'win32':
     conda_lib_path = os.path.join(os.environ['CONDA_PREFIX'],'Library','lib') 
     include_dir_list.append(conda_include)
     link_flag_list.append('/LIBPATH:'+conda_lib_path)
+    link_flag_list.append('libboost_exception.lib')
     link_flag_list.append('gsl.lib')
     link_flag_list.append('gslcblas.lib')
     if(DEBUG):
