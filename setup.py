@@ -26,7 +26,9 @@ else:
 if sys.platform == 'win32':
     # for windows, we only support condas build
     conda_include = os.path.join(os.environ['CONDA_PREFIX'],'Library','include')
+    conda_lib_path = os.path.join(os.environ['CONDA_PREFIX'],'Library','lib') 
     include_dir_list.append(conda_include)
+    link_flag_list.append('/LIBPATH:'+conda_lib_path)
     if(DEBUG):
         compile_flag_list.append('/Od')    
 else:
