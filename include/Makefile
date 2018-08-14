@@ -16,5 +16,5 @@ clean:
 	-rm *~
 
 libsmctc.a: $(SMCC) Makefile
-	$(CC) $(CCFLAGS) -c -I../include $(SMCC)
+	$(CC) $(CCFLAGS) -c -I./include $(SMCC)
 	ar rcs libsmctc.a $(SMCO)
