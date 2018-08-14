@@ -1,4 +1,4 @@
-CCFLAGS = -O3
+CCFLAGS = -O3 -fPIC
 CC = g++
 CBLAS = gslcblas
 LFLAGS = -lgsl -l$(CBLAS) 
