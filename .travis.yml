@@ -3,9 +3,9 @@ os:
   - linux
 
 before_install:
-  - if [[ "$TRAVIS_oS_NAME" == "osx" ]]; then 
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
       brew install gsl,boost-python; 
-    else
+    else;
       sudo apt-get install libgsl0-dev,libgsl0ldbl,libboost-all-dev; 
     fi
   - cd include 
