@@ -10,7 +10,8 @@ install:
     copy boost_python_config_patch.hpp %CONDA_PREFIX%\Library\include\boost\python\detail\config.hpp
 
 build_script:
-- cmd: %CONDA_PREFIX%\python.exe setup.py install
+- cmd: >-
+    %CONDA_PREFIX%\python.exe setup.py install
 test_script:
 - cmd: >-
     %CONDA_PREFIX%\python.exe -m unittest unit_test
