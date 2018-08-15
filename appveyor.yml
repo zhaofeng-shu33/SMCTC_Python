@@ -3,17 +3,16 @@ init:
 - cmd: set CONDA_PREFIX=C:\Miniconda-x64
 install:
 - cmd: >-
-    C:\Miniconda-x64\Scripts\conda install --yes -c conda-forge gsl
+    %CONDA_PREFIX%\Scripts\conda install --yes -c conda-forge gsl
 
-    C:\Miniconda-x64\Scripts\conda install --yes -c conda-forge boost
+    %CONDA_PREFIX%\Scripts\conda install --yes -c conda-forge boost
 
-    copy boost_python_config_patch.hpp C:\Miniconda-x64\Library\include\boost\python\detail\config.hpp
+    copy boost_python_config_patch.hpp %CONDA_PREFIX%\Library\include\boost\python\detail\config.hpp
 
-    dir C:\Miniconda-x64\Library\lib
 build_script:
-- cmd: C:\Miniconda-x64\python.exe setup.py install
+- cmd: %CONDA_PREFIX%\python.exe setup.py install
 test_script:
 - cmd: >-
-    C:\Miniconda-x64\python.exe -m unittest unit_test
+    %CONDA_PREFIX%\python.exe -m unittest unit_test
 
-    C:\Miniconda-x64\python.exe example_pf.py
+    %CONDA_PREFIX%\python.exe example_pf.py
